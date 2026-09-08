@@ -1,0 +1,91 @@
+[project]
+name = "{{ cookiecutter.project_slug }}"
+version = "0.1.0"
+description = {{ cookiecutter.description | tojson }}
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    { name = {{ cookiecutter.author | tojson }}, email = {{ cookiecutter.author_email | tojson }} },
+]
+requires-python = ">=3.12"
+dependencies = []
+{% if cookiecutter.project_type == "package" %}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+
+[project.urls]
+Homepage = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}"
+Repository = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}"
+Issues = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+default-groups = ["dev", "test"]
+{% else %}
+
+[tool.uv]
+package = false
+default-groups = ["dev", "test"]
+{% endif %}
+
+[dependency-groups]
+dev = ["ruff", "ipython", "pre-commit", "poethepoet", "mdformat", "mdformat-gfm", "mdformat-tables"]
+test = ["pytest"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 120
+src = ["src"]
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "W",
+    "N",
+    "UP",
+    # "PL",
+    # "RUF",
+]
+extend-select = ["I"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+
+[tool.ruff.format]
+quote-style = "single"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.poe]
+executor = { type = "uv" }
+shell_interpreter = "bash"
+
+[tool.poe.tasks]
+lock = "uv lock"
+{% if cookiecutter.project_type == "package" %}
+install = "uv sync"
+{% else %}
+install = "uv sync --no-install-project"
+{% endif %}
+hooks = "pre-commit install"
+update = "uv lock --upgrade"
+upgrade.sequence = ["update", "install"]
+format = [{ cmd = "ruff format ." }, { cmd = "ruff check . --fix" }]
+check = [{ cmd = "ruff format . --check" }, { cmd = "ruff check ." }]
+test = "pytest"
+format_docs = { shell = "git ls-files '*.md' | xargs mdformat" }
+check_docs = { shell = "git ls-files '*.md' | xargs mdformat --check" }
+patch = "uv version --bump patch"
+minor = "uv version --bump minor"
+major = "uv version --bump major"
