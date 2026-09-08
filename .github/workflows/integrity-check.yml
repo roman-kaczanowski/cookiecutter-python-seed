@@ -1,0 +1,49 @@
+name: "Integrity Check"
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  integrity-check:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        project_type: [application, package]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: '3.12'
+
+      - name: Generate project from template
+        run: >
+          uvx cookiecutter .
+          --no-input
+          --output-dir "$RUNNER_TEMP/generated"
+          project_type=${{ matrix.project_type }}
+
+      - name: Check code formatting
+        working-directory: ${{ runner.temp }}/generated/my-project
+        run: uv run ruff format --check .
+
+      - name: Check code linting
+        working-directory: ${{ runner.temp }}/generated/my-project
+        run: uv run ruff check .
+
+      - name: Check Markdown formatting
+        working-directory: ${{ runner.temp }}/generated/my-project
+        run: find . -name '*.md' ! -path './.venv/*' ! -path './.git/*' -print0 | xargs -0 -r uv run mdformat --check
+
+      - name: Run tests
+        working-directory: ${{ runner.temp }}/generated/my-project
+        run: uv run pytest
