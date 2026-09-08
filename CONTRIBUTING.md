@@ -16,6 +16,8 @@ Do not add an application `src/` or `pyproject.toml` at the seed root unless it 
 
 ## Checks
 
+The integrity check requires [uv](https://docs.astral.sh/uv/) on `PATH`.
+
 ```shell
 scripts/check-integrity.sh
 ```
