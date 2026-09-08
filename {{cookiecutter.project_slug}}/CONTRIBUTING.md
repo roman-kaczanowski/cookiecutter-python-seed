@@ -4,6 +4,12 @@
 {% if cookiecutter.project_type == "package" %}uv sync{% else %}uv sync --no-install-project{% endif %}
 ```
 
+To use `poe` without activating `.venv` or prefixing it with `uv run`, install Poe once as a uv tool:
+
+```shell
+uv tool install poethepoet
+```
+
 Commit `uv.lock`. `poe hooks` installs git hooks (pre-push, post-checkout, post-merge).
 
 ```shell
@@ -17,7 +23,7 @@ poe test
 
 ## Release
 
-Bump in the PR (`poe patch` / `minor` / `major`). CI fails if `[project].version` is not higher than on `main`.
+Bump the version in the PR with `poe patch`, `poe minor`, or `poe major`. CI fails if `[project].version` is not higher than on `main`.
 
 After merge, tag `vX.Y.Z` on `main` (must match the project version) and push the tag. GitHub Actions publishes the sdist and wheel to PyPI using trusted publishing. Register this repository as a trusted publisher on PyPI before the first release.
 {%- endif %}
