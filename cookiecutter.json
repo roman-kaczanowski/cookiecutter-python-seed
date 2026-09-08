@@ -1,0 +1,20 @@
+{
+  "project_slug": "my-project",
+  "__folder_slug": "{{ cookiecutter.project_slug.replace('-', '_') }}",
+  "project_type": ["application", "package"],
+  "description": "Add your description here",
+  "author": "Author Name",
+  "author_email": "author@example.com",
+  "github_username": "username-example",
+  "_copy_without_render": [
+    ".github/workflows/*.yml"
+  ],
+  "__prompts__": {
+    "project_slug": "PyPI / project name (lowercase, dashes)",
+    "project_type": "Project type",
+    "description": "Short description",
+    "author": "Author name",
+    "author_email": "Author email",
+    "github_username": "GitHub username (letters, digits, dashes)"
+  }
+}
