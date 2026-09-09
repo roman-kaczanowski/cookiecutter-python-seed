@@ -47,5 +47,14 @@ check_project() {
 for project_type in application package; do
   echo "==> $project_type"
   uvx cookiecutter "$root" --no-input --output-dir "$tmp/$project_type" "project_type=$project_type"
+  if [[ $project_type == package ]]; then
+    publish=$tmp/$project_type/my-project/.github/workflows/publish.yml
+    grep -F 'https://pypi.org/p/my-project' "$publish"
+    grep -F '${{ github.ref_name }}' "$publish"
+    if grep -F 'cookiecutter.project_slug' "$publish"; then
+      echo 'publish.yml still contains unrendered cookiecutter.project_slug' >&2
+      exit 1
+    fi
+  fi
   check_project "$tmp/$project_type/my-project"
 done
