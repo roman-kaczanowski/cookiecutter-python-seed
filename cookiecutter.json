@@ -7,7 +7,9 @@
   "author_email": "author@example.com",
   "github_username": "username-example",
   "_copy_without_render": [
-    ".github/workflows/*.yml"
+    ".github/workflows/check-tag.yml",
+    ".github/workflows/quality-checks.yml",
+    ".github/workflows/version-check.yml"
   ],
   "__prompts__": {
     "project_slug": "PyPI / project name (lowercase, dashes)",
