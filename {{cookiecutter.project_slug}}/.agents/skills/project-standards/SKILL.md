@@ -1,9 +1,13 @@
 ---
-description: Coding standards for every project generated from cookiecutter-python-seed
-alwaysApply: true
+name: project-standards
+description: Python coding standards for this project, covering toolchain, dependencies, typing, comments, and quality. Use when writing, reviewing, or refactoring Python code or changing project configuration.
+paths:
+  - "**/*.py"
+  - "pyproject.toml"
+  - ".pre-commit-config.yaml"
 ---
 
-# Generated project standards
+# Project standards
 
 This is a Python project generated from cookiecutter-python-seed. Treat `pyproject.toml` as the source of truth for toolchain, Python version, and dependencies. Minimum Python version is 3.12. Use uv to lock, sync, build, and bump versions.
 
@@ -57,8 +61,8 @@ Bug fix = root cause, not symptom. Grep every caller of the function you touch a
 
 Not lazy about: understanding the problem, input validation at trust boundaries, error handling that prevents data loss, security, anything explicitly requested.
 
-## Agents
+## Context
 
-- Keep this file for conventions that should always apply.
-- Put path-specific Cursor rules in additional `.mdc` files in this directory.
-- Keep `AGENTS.md` as a short index that points here.
+- Root `AGENTS.md` holds the always-on summary.
+- Nested `AGENTS.md` files describe directory-specific layout and flow.
+- `.agents/skills/` holds task-specific guidance. Load only what the task needs.
