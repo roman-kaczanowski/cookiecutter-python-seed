@@ -8,7 +8,7 @@ This repository is a Cookiecutter template, not an installable Python package.
 | `hooks/`, `scripts/`, `cookiecutter.json` | Seed-only. |
 | Root `README.md`, `LICENSE` | Seed metadata. |
 
-`AGENTS.md` and `.cursor/rules/` belong in the template directory only. They are copied into generated projects.
+`AGENTS.md`, nested `AGENTS.md` files, and `.agents/skills/` belong in the template directory only. They are copied into generated projects.
 
 Do not add an application `src/` or `pyproject.toml` at the seed root unless it is seed tooling.
 

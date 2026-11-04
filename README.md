@@ -8,7 +8,7 @@ Start a Python project with its engineering baseline already decided. This Cooki
 - **Quality built in.** Ruff, pytest, and mdformat run locally, through pre-commit, and in GitHub Actions.
 - **A structure that lasts.** A `src` layout, tests, and a focused `pyproject.toml` are ready to grow with the project.
 - **Package releases included.** Hatchling builds distributions, and GitHub Actions publishes tagged releases to PyPI with trusted publishing.
-- **Clear instructions for AI tools.** `AGENTS.md` and Cursor rules keep generated projects aligned with their conventions.
+- **Clear instructions for AI tools.** A compact `AGENTS.md`, nested context files, and shared Agent Skills keep generated projects aligned with their conventions.
 
 ## Generate
 
